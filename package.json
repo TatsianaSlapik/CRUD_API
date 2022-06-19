@@ -6,7 +6,8 @@
   "scripts": {
     "test": "test",
     "start:dev": "npx nodemon ./src/main.ts",
-    "start:prod": "tsc && webpack --mode production && node ./bundle/bundle.js"
+    "start:prod": "tsc && webpack --mode production && node ./bundle/bundle.js",
+    "start:multi": "npx nodemon ./src/mainCluster.ts"
   },
   "repository": {
     "type": "git",
