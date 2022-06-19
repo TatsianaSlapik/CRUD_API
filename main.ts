@@ -1,7 +1,7 @@
 import { createServer, IncomingMessage, ServerResponse } from "node:http";
 import { PORT } from "./src/common/config";
 import { IUserBody } from "./src/data/user.interface";
-import { users } from "./src/data/users";
+import users from "./src/data/users";
 import {
   createUser,
   deleteUser,
@@ -9,7 +9,7 @@ import {
   getUser,
   isValidId,
   updateUser,
-} from "./src/until/until";
+} from "./src/util/util";
 
 const server = createServer(
   (request: IncomingMessage, response: ServerResponse) => {
@@ -25,9 +25,25 @@ const server = createServer(
           });
           request.on("end", function () {
             try {
-              let post = createUser(JSON.parse(body));
-              response.writeHead(201, { "Content-Type": "text/plain" });
-              response.end(JSON.stringify(post));
+              const { name, age, hobbies } = JSON.parse(body);
+
+              const newUser: IUserBody = {
+                name: name,
+                age: age,
+                hobbies: hobbies,
+              };
+              if (newUser.name && newUser.age && newUser.hobbies) {
+                let post = createUser(newUser);
+                response.writeHead(201, { "Content-Type": "text/plain" });
+                response.end(JSON.stringify(post));
+              } else {
+                response.writeHead(400, { "Content-Type": "application/json" });
+                response.end(
+                  JSON.stringify({
+                    message: "Request body does not contain required fields",
+                  })
+                );
+              }
 
               return;
             } catch (err) {
@@ -77,7 +93,7 @@ const server = createServer(
                 response.end(JSON.stringify({ message: "User Not Found" }));
               } else {
                 deleteUser(id);
-                response.writeHead(204, { "Content-Type": "application/json" });
+                response.writeHead(204, { "Content-Type": "text/plain" });
                 response.end(JSON.stringify({ message: `User ${id} removed` }));
               }
             } else {

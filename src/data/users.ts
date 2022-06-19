@@ -1,3 +1,5 @@
 import { IUser } from "./user.interface";
 
-export const users: IUser[] = [];
+const users: IUser[] = [];
+
+export default users;

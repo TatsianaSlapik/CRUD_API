@@ -1,7 +1,7 @@
 import { getDiffieHellman } from "node:crypto";
 import { v4 as uuid, validate as uuidValidate } from "uuid";
 import { IUser, IUserBody } from "../data/user.interface";
-import { users } from "../data/users";
+import users from "../data/users";
 
 export const getId = (path: string) => {
   let mas = path.split("/");
@@ -23,7 +23,8 @@ export const getUser = (userId: string) => {
 };
 
 export const deleteUser = (userId: string) => {
-  users.filter((user) => user.id !== userId);
+  const id = users.findIndex((user) => user.id === userId);
+  return users.splice(id, 1);
 };
 
 export const updateUser = (userId: string, user: IUserBody) => {
