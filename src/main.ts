@@ -1,7 +1,7 @@
 import { createServer, IncomingMessage, ServerResponse } from "node:http";
-import { PORT } from "./src/common/config";
-import { IUserBody } from "./src/data/user.interface";
-import users from "./src/data/users";
+import { PORT } from "./common/config";
+import { IUserBody } from "./data/user.interface";
+import users from "./data/users";
 import {
   createUser,
   deleteUser,
@@ -9,7 +9,7 @@ import {
   getUser,
   isValidId,
   updateUser,
-} from "./src/util/util";
+} from "./util/util";
 
 const server = createServer(
   (request: IncomingMessage, response: ServerResponse) => {
@@ -154,6 +154,9 @@ const server = createServer(
         }
       } else {
         response.statusCode = 404;
+        response.writeHead(404, { "Content-Type": "text/plain" });
+        response.write("OOps");
+        response.end();
         response.end();
       }
     }

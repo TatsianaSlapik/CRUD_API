@@ -1,6 +1,5 @@
-import { getDiffieHellman } from "node:crypto";
 import { v4 as uuid, validate as uuidValidate } from "uuid";
-import { IUser, IUserBody } from "../data/user.interface";
+import { IUserBody } from "../data/user.interface";
 import users from "../data/users";
 
 export const getId = (path: string) => {
