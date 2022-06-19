@@ -2,7 +2,7 @@ import { createServer, IncomingMessage, ServerResponse } from "node:http";
 import { PORT } from "./common/config";
 import { IUserBody } from "./data/user.interface";
 import users from "./data/users";
-import { handlereqres } from "./handlereq";
+import { handleReqRes } from "./handlereq";
 import {
   createUser,
   deleteUser,
@@ -12,7 +12,7 @@ import {
   updateUser,
 } from "./util/util";
 
-const server = createServer(handlereqres);
+export const server = createServer(handleReqRes);
 
 server.listen(PORT, () =>
   process.stdout.write(`Server is running on http://localhost:${PORT}\n`)

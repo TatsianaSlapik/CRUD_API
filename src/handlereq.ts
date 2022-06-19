@@ -10,13 +10,14 @@ import {
   updateUser,
 } from "./util/util";
 
-export function handlereqres(
+export function handleReqRes(
   request: IncomingMessage,
   response: ServerResponse
 ) {
   if (request.url !== undefined) {
     if (request.url === "/api/users") {
       if (request.method === "GET") {
+        response.setHeader("Content-Type", "application/json");
         response.end(JSON.stringify(users));
       }
       if (request.method === "POST") {
@@ -35,7 +36,7 @@ export function handlereqres(
             };
             if (newUser.name && newUser.age && newUser.hobbies) {
               let post = createUser(newUser);
-              response.writeHead(201, { "Content-Type": "text/plain" });
+              response.writeHead(201, { "Content-Type": "application/json" });
               response.end(JSON.stringify(post));
             } else {
               response.writeHead(400, { "Content-Type": "application/json" });
@@ -94,7 +95,7 @@ export function handlereqres(
               response.end(JSON.stringify({ message: "User Not Found" }));
             } else {
               deleteUser(id);
-              response.writeHead(204, { "Content-Type": "text/plain" });
+              response.writeHead(204, { "Content-Type": "application/json" });
               response.end(JSON.stringify({ message: `User ${id} removed` }));
             }
           } else {
@@ -146,7 +147,7 @@ export function handlereqres(
               );
             }
           } catch (err) {
-            response.writeHead(500, { "Content-Type": "text/plain" });
+            response.writeHead(500, { "Content-Type": "application/json" });
             response.write("Bad Post Data.  Is your data a proper JSON?\n");
             response.end();
             return;
@@ -154,10 +155,9 @@ export function handlereqres(
         });
       }
     } else {
-      response.statusCode = 404;
-      response.writeHead(404, { "Content-Type": "text/plain" });
+      //response.statusCode = 404;
+      response.writeHead(404, { "Content-Type": "application/json" });
       response.write("OOps");
-      response.end();
       response.end();
     }
   }
